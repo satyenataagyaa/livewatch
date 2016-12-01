@@ -1,0 +1,161 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <base href="/">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(client) app/vendor.css -->
+      <!-- bower:css -->
+      <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
+      <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- CodeMirror -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.10.0/codemirror.css" />
+
+    <!-- Firepad -->
+    <link rel="stylesheet" href="https://cdn.firebase.com/libs/firepad/1.4.0/firepad.css" />
+
+    <!-- build:css({.tmp,client}) app/app.css -->
+    <link rel="stylesheet" href="app/app.css">
+      <!-- injector:css -->
+      <link rel="stylesheet" href="app/app.css">
+      <link rel="stylesheet" href="app/auth/auth.css">
+      <link rel="stylesheet" href="app/core/broadcast-pad.css">
+      <link rel="stylesheet" href="app/core/share-pad.css">
+      <link rel="stylesheet" href="app/dashboard/call/make-call.css">
+      <link rel="stylesheet" href="app/main/main.css">
+      <link rel="stylesheet" href="app/watch/active-watch-element.css">
+      <link rel="stylesheet" href="app/watch/broadcast-viewer-video.css">
+      <link rel="stylesheet" href="app/watch/share-viewer-video.css">
+      <link rel="stylesheet" href="components/layout/layout.css">
+      <!-- endinjector -->
+    <!-- endbuild -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
+  </head>
+  <body ng-app="livewatchApp">
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <!-- Add your site or application content here -->
+    <div layout="column" layout-fill ui-view=""></div>
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-XXXXX-X');
+      ga('send', 'pageview');
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/json3/lib/json3.min.js"></script>
+    <![endif]-->
+    <!--<script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>-->
+    <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
+
+    <!-- CodeMirror -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.10.0/codemirror.js"></script>
+
+    <!-- Firepad -->
+    <script src="https://cdn.firebase.com/libs/firepad/1.4.0/firepad.min.js"></script>
+
+    <!-- build:js({client,node_modules}) app/vendor.js -->
+      <!-- bower:js -->
+      <script src="bower_components/angular/angular.js"></script>
+      <script src="bower_components/angular-resource/angular-resource.js"></script>
+      <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+      <script src="bower_components/angular-messages/angular-messages.js"></script>
+      <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+      <script src="bower_components/angular-animate/angular-animate.js"></script>
+      <script src="bower_components/angular-aria/angular-aria.js"></script>
+      <script src="bower_components/angular-material/angular-material.js"></script>
+      <script src="bower_components/lodash/dist/lodash.compat.js"></script>
+      <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+      <!-- endbower -->
+    <!-- endbuild -->
+
+        
+        <!-- build:js({.tmp,client}) app/app.js -->
+        
+        <script src="app/app.js"></script>
+          <!-- injector:js -->
+          <script src="app/auth/auth.module.js"></script>
+          <script src="app/core/core.module.js"></script>
+          <script src="app/dashboard/dashboard.module.js"></script>
+          <script src="app/done/done.module.js"></script>
+          <script src="app/watch/watch.module.js"></script>
+          <script src="app/core/broadcast-channels.service.js"></script>
+          <script src="app/core/broadcast-pad.directive.js"></script>
+          <script src="app/core/broadcast-pad.service.js"></script>
+          <script src="app/core/broadcast-session.service.js"></script>
+          <script src="app/core/broadcast-sessions.service.js"></script>
+          <script src="app/core/broadcast-signaling.service.js"></script>
+          <script src="app/core/call.service.js"></script>
+          <script src="app/core/calls.service.js"></script>
+          <script src="app/core/collection.js"></script>
+          <script src="app/core/constants.js"></script>
+          <script src="app/core/firebase-data.service.js"></script>
+          <script src="app/core/recordings.service.js"></script>
+          <script src="app/core/screen-share.service.js"></script>
+          <script src="app/core/share-channels.service.js"></script>
+          <script src="app/core/share-pad.directive.js"></script>
+          <script src="app/core/share-pad.service.js"></script>
+          <script src="app/core/share-session.service.js"></script>
+          <script src="app/core/share-sessions.service.js"></script>
+          <script src="app/core/share-signaling.service.js"></script>
+          <script src="app/core/signaling.service.js"></script>
+          <script src="app/core/user-friends.service.js"></script>
+          <script src="app/core/user-recording-calls.service.js"></script>
+          <script src="app/core/user.service.js"></script>
+          <script src="app/core/users.service.js"></script>
+          <script src="app/auth/auth.service.js"></script>
+          <script src="app/auth/config.route.js"></script>
+          <script src="app/auth/login.directive.js"></script>
+          <script src="app/dashboard/call/active-call.directive.js"></script>
+          <script src="app/dashboard/call/broadcast-owner-screen.directive.js"></script>
+          <script src="app/dashboard/call/broadcast-owner-video.directive.js"></script>
+          <script src="app/dashboard/call/broadcast-owner.directive.js"></script>
+          <script src="app/dashboard/call/call-request.directive.js"></script>
+          <script src="app/dashboard/call/make-call.controller.js"></script>
+          <script src="app/dashboard/call/peer-call.directive.js"></script>
+          <script src="app/dashboard/call/peer-video-call.directive.js"></script>
+          <script src="app/dashboard/call/share-owner-screen.directive.js"></script>
+          <script src="app/dashboard/call/share-owner-video.directive.js"></script>
+          <script src="app/dashboard/config.route.js"></script>
+          <script src="app/dashboard/dashboard.controller.js"></script>
+          <script src="app/dashboard/dashboard.directive.js"></script>
+          <script src="app/done/call/completed-call.directive.js"></script>
+          <script src="app/done/config.route.js"></script>
+          <script src="app/done/done.controller.js"></script>
+          <script src="app/done/done.directive.js"></script>
+          <script src="app/main/main.controller.js"></script>
+          <script src="app/main/main.js"></script>
+          <script src="app/watch/active-watch-element.directive.js"></script>
+          <script src="app/watch/broadcast-viewer-video.directive.js"></script>
+          <script src="app/watch/broadcast-viewer.directive.js"></script>
+          <script src="app/watch/config.route.js"></script>
+          <script src="app/watch/share-viewer-video.directive.js"></script>
+          <script src="app/watch/watch-element.directive.js"></script>
+          <script src="app/watch/watch.controller.js"></script>
+          <script src="app/watch/watch.directive.js"></script>
+          <script src="components/layout/layout.controller.js"></script>
+          <script src="components/layout/layout.directive.js"></script>
+          <script src="components/logger/logger.js"></script>
+          <script src="components/webrtc/adapter.js"></script>
+          <!-- endinjector -->
+        <!-- endbuild -->
+</body>
+</html>

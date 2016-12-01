@@ -1,0 +1,51 @@
+<md-dialog aria-label="Form">
+  <form name="callForm">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Make Call</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon md-svg-icon="webcontent:ic_clear_24px" aria-label="Cancel"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content style="max-width: 500px;">
+      <div class="md-dialog-content make-call-dialog-content">
+        <md-input-container>
+          <label>Subject</label>
+          <input size="255" md-maxlength="255" required name="subject" ng-model="call.subject">
+          <div ng-messages="callForm.subject.$error">
+            <div ng-message="required">Subject is required.</div>
+            <div ng-message="md-maxlength">Subject has to be less than 256 characters long.</div>
+          </div>
+        </md-input-container>
+        <md-autocomplete
+            md-selected-item="call.callee"
+            md-search-text="criteria"
+            md-items="item in delayedQuerySearch(criteria)"
+            md-item-text="item.email"
+            md-min-length="2"
+            placeholder="User to call"
+            md-menu-class="make-call-autocomplete-custom-template">
+          <md-item-template>
+            <span class="item-title">
+              <strong>{{item.name}}</strong>
+            </span>
+            <span class="item-metadata">
+              <span class="item-metastat">
+                <span md-highlight-text="criteria" md-highlight-flags="^i">{{item.email}}</span>
+              </span>
+            </span>
+          </md-item-template>
+          <md-not-found>
+            No users matching "{{criteria}}" were found.
+          </md-not-found>
+        </md-autocomplete>
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+      <md-button ng-click="cancel()"> Cancel </md-button>
+      <md-button ng-click="make()" class="md-primary" ng-disabled="callForm.$invalid"> Make </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

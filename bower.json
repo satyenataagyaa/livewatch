@@ -1,0 +1,23 @@
+{
+  "name": "livewatch",
+  "version": "0.0.1",
+  "dependencies": {
+    "angular": "~1.4.4",
+    "json3": "~3.3.1",
+    "es5-shim": "~3.0.1",
+    "angular-resource": "~1.4.4",
+    "angular-cookies": "~1.4.4",
+    "angular-messages": "~1.4.4",
+    "angular-sanitize": "~1.4.4",
+    "angular-material": "latest",
+    "lodash": "~2.4.1",
+    "angular-ui-router": "~0.2.15"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.4.4",
+    "angular-scenario": "~1.4.4"
+  },
+  "resolutions": {
+    "angular": "1.5.6"
+  }
+}

@@ -1,0 +1,13 @@
+<!--<md-grid-list md-cols="2" md-row-height="4:3" md-gutter="8px">
+  <md-grid-tile ng-repeat="c in channels">
+    <broadcast-viewer-video channel="c" session-id="{{sessionId}}" uid="uid"></broadcast-viewer-video>
+  </md-grid-tile>
+</md-grid-list>-->
+<div flex layout="column" layout-align="center center" layout-padding>
+  <div layout="row" layout-align="center" class="broadcast-viewer-video-container">
+    <div ng-repeat="c in channels">
+      <broadcast-viewer-video channel="c" session-id="{{sessionId}}" uid="uid"></broadcast-viewer-video>
+    </div>
+  </div>
+  <broadcast-pad session-id="{{sessionId}}" broadcast-owner-id="{{ownerId}}" uid="uid"></broadcast-pad>
+</div>

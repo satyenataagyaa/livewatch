@@ -1,0 +1,21 @@
+<md-button class="md-fab md-fab-bottom-right" aria-label="Add" ng-if="!vm.activeCall" ng-click="vm.showMakeCallDialog($event)">
+  <md-icon md-svg-icon="webcontent:ic_add_24px" aria-label="Plus"></md-icon>
+</md-button>
+<!-- Before active -->
+<md-card ng-show="vm.callsBeforeActive.length">
+  <md-list>
+    <call-request ng-repeat="call in vm.callsBeforeActive" call="call" uid="vm.myUid" on-select="vm.makeActive(call)" on-answer="vm.makeActive(call)" aria-label="<CHANGE ME>">
+      <md-divider ng-if="!$last"></md-divider>
+    </call-request>
+  </md-list>
+</md-card>
+<!-- Active -->
+<active-call call="vm.activeCall" uid="vm.myUid" on-close="vm.makeInactive(complete)" ng-if="vm.activeCall"></active-call>
+<!-- After active -->
+<md-card ng-show="vm.callsAfterActive.length">
+  <md-list>
+    <call-request ng-repeat="call in vm.callsAfterActive" call="call" aria-label="<CHANGE ME>">
+      <md-divider ng-if="!$last"></md-divider>
+    </call-request>
+  </md-list>
+</md-card>

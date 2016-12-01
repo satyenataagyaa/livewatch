@@ -1,0 +1,25 @@
+<md-card ng-hide="vm.sessions.length">
+  <md-card-title>
+    <md-card-title-text>
+      <span class="md-headline">No Calls</span>
+    </md-card-title-text>
+  </md-card-title>
+</md-card>
+<!-- Before active -->
+<md-card ng-show="vm.sessionsBeforeActive.length">
+  <md-list>
+    <watch-element ng-repeat="sess in vm.sessionsBeforeActive" sess="sess" uid="vm.myUid" on-select="vm.makeActive(sess)" on-answer="vm.makeActive(sess)" aria-label="<CHANGE ME>">
+      <md-divider ng-if="!$last"></md-divider>
+    </watch-element>
+  </md-list>
+</md-card>
+<!-- Active -->
+<active-watch-element sess="vm.activeSession" uid="vm.myUid" on-close="vm.makeInactive()" ng-if="vm.activeSession"></active-watch-element>
+<!-- After active -->
+<md-card ng-show="vm.sessionsAfterActive.length">
+  <md-list>
+    <watch-element ng-repeat="sess in vm.sessionsAfterActive" sess="sess" uid="vm.myUid" on-select="vm.makeActive(sess)" on-answer="vm.makeActive(sess)" aria-label="<CHANGE ME>">
+      <md-divider ng-if="!$last"></md-divider>
+    </watch-element>
+  </md-list>
+</md-card>

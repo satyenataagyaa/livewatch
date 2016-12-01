@@ -1,0 +1,32 @@
+tmpl-layout {
+  height: 100%;
+}
+md-sidenav > md-toolbar {
+  padding: 15px;
+  height: 150px;
+  max-height: 150px;
+}
+md-sidenav md-list-item.md-2-line,
+md-sidenav md-list-item.md-2-line > .md-no-style {
+  min-height: 0;
+}
+/*
+md-sidenav md-list-item.md-2-line .md-list-item-text {
+  padding-top: 14px;
+  padding-bottom: 12px;
+}
+*/
+md-sidenav md-divider {
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+md-sidenav md-icon {
+  fill: #737373;
+  position: relative;
+}
+md-sidenav .md-avatar {
+  height: 64px;
+  width: 64px;
+}
+

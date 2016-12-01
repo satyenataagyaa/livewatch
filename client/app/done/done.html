@@ -1,0 +1,7 @@
+<md-card>
+  <md-list>
+    <completed-call ng-repeat="call in vm.completedCalls" call="call" uid="vm.myUid" aria-label="<CHANGE ME>">
+      <md-divider ng-if="!$last"></md-divider>
+    </completed-call>
+  </md-list>
+</md-card>

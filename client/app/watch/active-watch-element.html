@@ -1,0 +1,18 @@
+<md-card>
+  <md-card-header>
+    <md-card-header-text>
+      <!--<md-title>{{vm.call.model.subject}}</md-title>-->
+      <md-title>Active Share Session</md-title>
+    </md-card-header-text>
+  </md-card-header>
+  <!-- <p>{{vm.conf.model.subject}}</p> -->
+  <div flex layout="column" layout-align="center center" layout-padding>
+    <div layout="row" layout-align="center" class="share-viewer-videos-container">
+      <share-viewer-video channel="shareScreenChannel" session-id="{{sess.id}}" uid="uid" ng-if="shareScreenChannel"></share-viewer-video>
+      <share-viewer-video channel="shareVideoChannel" session-id="{{sess.id}}" uid="uid" ng-if="shareVideoChannel"></share-viewer-video>
+    </div>
+    <share-pad call-id="{{sess.callId}}" owner-id="{{sess.owner}}" uid="uid"></share-pad>
+  </div>
+    <md-button ng-click="close()">Close</md-button>
+  </md-card-actions>
+</md-card>

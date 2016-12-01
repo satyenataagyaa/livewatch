@@ -1,0 +1,23 @@
+{
+  "name": "LiveWatch Screensharing",
+  "description": "Screensharing Extension for LiveWatch",
+  "version": "1.0.0",
+  "manifest_version": 2,
+  "icons": {
+    "128": "icon.png"
+  },
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://localhost/*"],
+      "js": ["content-script.js"]
+    }
+  ],
+  "permissions": [
+    "desktopCapture",
+    "https://localhost/*",
+    "tabs"
+  ]
+}

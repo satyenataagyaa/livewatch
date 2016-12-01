@@ -1,0 +1,258 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "users": {
+      ".indexOn": ["email"],
+      ".read": "auth != null",
+      "$uid": {
+        ".write": "auth != null && auth.uid == $uid && data.val() == null",
+        "uid": {
+          ".validate": "newData.isString() && newData.val().length <= 200"
+        },
+        "name": {
+          ".validate": "newData.isString() && newData.val().length <= 2000"
+        },
+        "email": {
+          ".validate": "newData.isString() && newData.val().matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i)"
+        },
+        "photo": {
+          ".validate": "newData.isString() && newData.val().length <= 2000"
+        },
+        "$other": {
+           ".validate": false
+        }
+      }
+    },
+    "userFriends": {
+      "$uid": {
+        ".read": "auth != null && auth.uid == $uid",
+        ".write": "auth != null && auth.uid == $uid",
+        "$friendUid": {
+          ".validate": "root.child('users').child($friendUid).exists() && newData.hasChildren(['name', 'email'])",
+          "name": {
+            ".validate": "newData.isString()"
+          },
+          "email": {
+            ".validate": "newData.isString() && newData.val().matches(/^[A-Z0-9,_%+-]+@[A-Z0-9,-]+,[A-Z]{2,4}$/i)"
+          }
+        }
+      }
+    },
+    "calls": {
+      "$uid": {
+        ".indexOn": ["complete"],
+        ".read": "auth != null && auth.uid == $uid",
+        "$callId": {
+          ".write": "data.val() == null && (auth != null && root.child('uidMappings').child(auth.uid).val() == newData.child('moderator').val()) || newData.val() == null && (auth != null && root.child('uidMappings').child(auth.uid).val() == data.child('moderator').val())",
+          "complete": {
+            ".write": "auth != null && auth.uid == $uid"
+          },
+          "offerer": {
+            ".write": "auth != null && (data.parent().child('caller').val() == auth.uid || data.parent().child('callee').val() == auth.uid)"
+          },
+          "answerer": {
+            ".write": "auth != null && (data.parent().child('callee').val() == auth.uid || data.parent().child('caller').val() == auth.uid)"
+          }
+        }
+      }
+    },
+    "caller-mappings": {
+      "$callId": {
+        ".read": "auth != null",
+        ".write": "auth != null && auth.uid == data.val() || auth != null && auth.uid == newData.val()"
+      }
+    },
+    "share-sessions": {
+      "$uid": {
+        ".read": "auth != null && auth.uid == $uid",
+        ".write": "data.val() == null && auth != null && (auth.uid == $uid || root.child('userFriends').child(auth.uid).child($uid).exists())",
+        "$shareSessionId": {
+          ".write": "newData.val() == null && auth != null && (auth.uid == $uid || root.child('userFriends').child(auth.uid).child($uid).exists())",
+          ".validate": "newData.hasChildren(['callId', 'owner'])",
+          "callId": {
+            ".validate": "newData.isString()"
+          },
+          "owner": {
+            ".validate": "root.child('users').child(newData.val()).exists()"
+          },
+          "$other": {
+            ".validate": "false"
+          }
+        }
+      }
+    },
+    "share-channels": {
+      "$shareOwnerId": {
+        /* Allow read if user is owner, or user is owner's friend */
+        ".read": "auth != null && (auth.uid == $shareOwnerId || root.child('userFriends').child($shareOwnerId).child(auth.uid).exists())",
+        ".write": "auth != null && auth.uid == $shareOwnerId",
+        "$shareSessionId": {
+          ".validate": "root.child('share-sessions').child($shareOwnerId).child($shareSessionId).exists()",
+          "$shareChannelId": {
+            ".write": "data.val() == null",
+            ".validate": "newData.hasChildren(['type', 'owner'])",
+            "type": {
+              ".validate": "newData.isString()"
+            },
+            "owner": {
+              ".validate": "root.child('users').child(newData.val()).exists()"
+            },
+            "$other": {
+              ".validate": "false"
+            }
+          }
+        }
+      }
+    },
+    "share-pads": {
+      "$ownerId": {
+        /* Allow read if user is owner, or user is owner's friend */
+        ".read": "auth != null && (auth.uid == $ownerId || root.child('userFriends').child($ownerId).child(auth.uid).exists())",
+        /* "$shareSessionId": { */
+        "$callId": {
+          /* ".validate": "root.child('broadcastSessions').child($broadcastOwnerId).child($broadcastSessionId).exists()", */
+          "history": {
+            ".write": "auth != null && auth.uid == $ownerId",
+            "$revision": {
+              ".write": "auth != null && (auth.uid == $ownerId || root.child('userFriends').child($ownerId).child(auth.uid).exists()) && data.val() === null"
+            }
+          },
+          "checkpoint": {
+            ".write": "auth != null && (auth.uid == $ownerId || root.child('userFriends').child($ownerId).child(auth.uid).exists())"
+          },
+          "users": {
+            "$user": {
+              ".write": "auth != null && (auth.uid == $ownerId || root.child('userFriends').child($ownerId).child(auth.uid).exists())"
+            }
+          }
+        }
+      }
+    },
+    "recordings": {
+      "$callId": {
+        "$recordingId": {
+          ".read": "auth != null",
+          ".write": "auth != null",
+          ".validate": "newData.hasChildren(['type', 'owner'])",
+          "type": {
+            ".validate": "newData.isString()"
+          },
+          "owner": {
+            ".validate": "root.child('users').child(newData.val()).exists()"
+          },
+          "$other": {
+            ".validate": "false"
+          }
+        }
+      }
+    },
+    "user-recording-calls": {
+      "$uid": {
+        /* Allow read for user */
+        ".read": "auth != null && auth.uid == $uid",
+        /* Allow write for user, or for a friend */
+        ".write": "auth != null && (auth.uid == $uid || root.child('userFriends').child($uid).child(auth.uid).exists())",
+        "$callId": {
+          ".validate": "newData.hasChildren(['viewed'])",
+          "viewed": {
+            ".validate": "newData.isBoolean()"
+          }
+        }
+      }
+    },
+    /* "broadcastSessions": {
+      "$uid": {
+        ".read": "auth != null && auth.uid == $uid",
+        ".write": "data.val() == null && auth != null && (auth.uid == $uid || root.child('userFriends').child(auth.uid).child($uid).exists())",
+        "$broadcastSessionId": {
+          ".write": "newData.val() == null && auth != null && (auth.uid == $uid || root.child('userFriends').child(auth.uid).child($uid).exists())",
+          ".validate": "newData.hasChildren(['callId', 'broadcaster'])",
+          "callId": {
+            ".validate": "newData.isString()"
+          },
+          "broadcaster": {
+            ".validate": "root.child('users').child(newData.val()).exists()"
+          },
+          "$other": {
+            ".validate": "false"
+          }
+        }
+      }
+    }, */
+    /* "broadcastChannels": {
+      "$broadcastOwnerId": {
+        // Allow read if user is owner, or user is owner's friend
+        ".read": "auth != null && (auth.uid == $broadcastOwnerId || root.child('userFriends').child($broadcastOwnerId).child(auth.uid).exists())",
+        ".write": "auth != null && auth.uid == $broadcastOwnerId",
+        "$broadcastSessionId": {
+          ".validate": "root.child('broadcastSessions').child($broadcastOwnerId).child($broadcastSessionId).exists()",
+          "$broadcastChannelId": {
+            ".write": "data.val() == null",
+            ".validate": "newData.hasChildren(['type', 'broadcaster'])",
+            "type": {
+              ".validate": "newData.isString()"
+            },
+            "broadcaster": {
+              ".validate": "root.child('users').child(newData.val()).exists()"
+            },
+            "$other": {
+              ".validate": "false"
+            }
+          }
+        }
+      }
+    }, */
+    /* "broadcastPads": {
+      "$broadcastOwnerId": {
+        // Allow read if user is owner, or user is owner's friend
+        ".read": "auth != null && (auth.uid == $broadcastOwnerId || root.child('userFriends').child($broadcastOwnerId).child(auth.uid).exists())",
+        "$broadcastSessionId": {
+          // ".validate": "root.child('broadcastSessions').child($broadcastOwnerId).child($broadcastSessionId).exists()",
+          "history": {
+            ".write": "auth != null && auth.uid == $broadcastOwnerId",
+            "$revision": {
+              ".write": "auth != null && (auth.uid == $broadcastOwnerId || root.child('userFriends').child($broadcastOwnerId).child(auth.uid).exists()) && data.val() === null"
+            }
+          },
+          "checkpoint": {
+            ".write": "auth != null && (auth.uid == $broadcastOwnerId || root.child('userFriends').child($broadcastOwnerId).child(auth.uid).exists())"
+          },
+          "users": {
+            "$user": {
+              ".write": "auth != null && (auth.uid == $broadcastOwnerId || root.child('userFriends').child($broadcastOwnerId).child(auth.uid).exists())"
+            }
+          }
+        }
+      }
+    }, */
+    "signaling": {
+      "$callId": {
+        "$uid": {
+          ".read": "auth != null && auth.uid == $uid",
+          ".write": "auth != null && root.child('calls').child(auth.uid).child($callId).exists()"
+        }
+      }
+    },
+    "share-signaling": {
+      "$sessionId": {
+        "$channelId": {
+          "$uid": {
+            ".read": "auth != null && auth.uid == $uid",
+            ".write": "auth != null && root.child('share-sessions').child($uid).child($sessionId).exists()"
+          }
+        }
+      }
+    } /* ,
+    "broadcastSignaling": {
+      "$sessionId": {
+        "$channelId": {
+          "$uid": {
+            ".read": "auth != null && auth.uid == $uid",
+            ".write": "auth != null && root.child('broadcastSessions').child($uid).child($sessionId).exists()"
+          }
+        }
+      }
+    } */
+  }
+}

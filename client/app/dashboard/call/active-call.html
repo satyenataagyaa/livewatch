@@ -1,0 +1,39 @@
+<md-card>
+  <md-card-header>
+    <md-card-header-text>
+      <!--<md-title>{{vm.call.model.subject}}</md-title>-->
+      <md-title>Active Call</md-title>
+    </md-card-header-text>
+  </md-card-header>
+  <!-- <p>{{vm.conf.model.subject}}</p> -->
+  <peer-call call="call"
+             uid="uid"
+             on-connected="callConnected(streams)"
+             on-disconnected="callDisconnected()">
+  </peer-call>
+  <md-progress-linear class="md-warn"
+                      md-mode="buffer"
+                      value="{{determinateValue}}"
+                      md-buffer-value="{{determinateValue2}}"
+                      ng-show="callState == 2"
+                      style="padding-top: 10px; margin-bottom: 20px;">
+  </md-progress-linear>
+  <div layout="row" layout-align="center" layout-padding>
+    <div flex="80">
+      <share-pad call-id="{{call.id}}" owner-id="{{uid}}" uid="uid" ng-if="userPrivileges.share"></share-pad>
+    </div>
+  </div>
+  <div ng-if="shareState > 0">
+    <share-owner-screen channel="shareScreenChannel" friends="userFriends" session-id="{{shareSession.id}}" uid="uid"></share-owner-screen>
+    <share-owner-video stream="localVideoStream" channel="shareVideoChannel" friends="userFriends" session-id="{{shareSession.id}}" uid="uid"></share-owner-video>
+  </div>
+	<md-card-actions layout="row" layout-align="end center">
+    <md-button ng-click="cancel()" ng-show="callState == 0">Cancel</md-button>
+    <md-button ng-click="startCall()" ng-show="callState == 0">Call</md-button>
+    <md-button ng-click="snooze()" ng-show="callState == 1">Snooze</md-button>
+    <md-button ng-click="answer()" ng-show="callState == 1 && !isUserOfferer()">Answer</md-button>
+    <!--<md-button ng-click="startBroadcast()" ng-if="userPrivileges.share" ng-show="callState == 2 && broadcastState == 0">Start Broadcast</md-button>
+    <md-button ng-click="stopBroadcast()" ng-if="userPrivileges.share" ng-show="callState == 2 && broadcastState == 1">Stop Broadcast</md-button>-->
+    <md-button ng-click="hangup()" ng-show="callState >= 2">Hang Up</md-button>
+	</md-card-actions>
+</md-card>

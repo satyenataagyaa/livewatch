@@ -1,0 +1,31 @@
+<md-list-item ng-click="onSelect()" aria-label="<CHANGE ME>">
+  <img class="md-avatar" gravatar-src="vm.ownerEmail" gravatar-size="40">
+  <div class="md-list-item-text" layout="row" flex>
+    <div flex="25">{{call.membership}}</div>
+    <div flex>{{call.subject}}</div>
+    <div>
+      <md-button class="md-icon-button" ng-show="alerting" ng-click="answer($event)" aria-label="Answer">
+        <md-icon md-svg-icon="mdi:bell-ring"></md-icon>
+      </md-button>
+      <md-button class="md-icon-button" ng-click="vm.deleteCall(call, $event)" aria-label="Delete">
+        <md-icon md-svg-icon="webaction:ic_delete_24px"></md-icon>
+      </md-button>
+      <md-menu md-position-mode="target-right target" style="padding: 0;">
+        <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="vm.openCallMenu($mdOpenMenu, $event)">
+          <md-icon md-menu-origin md-svg-icon="assets/icons/dots-vertical.svg"></md-icon>
+        </md-button>
+        <md-menu-content width="4">
+          <md-menu-item>
+            <md-button ng-click="vm.showAddMemberDialog(conf, $event)">
+              <div layout="row">
+                <p flex>Add</p>
+                <md-icon md-svg-icon="content:add" md-menu-align-target style="margin: auto 3px auto 0;"></md-icon>
+              </div>
+            </md-button>
+          </md-menu-item>
+          <md-menu-divider></md-menu-divider>
+        </md-menu-content>
+      </md-menu>
+    </div>
+  </div>
+</md-list-item>

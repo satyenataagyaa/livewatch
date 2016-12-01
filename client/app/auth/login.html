@@ -1,0 +1,33 @@
+<div layout="column" layout-align="center center" layout-fill="layout-fill">
+  <div layout="column" class="loginBox md-whiteframe-z1">
+    <md-toolbar>
+      <h2 class="md-toolbar-tools"><span>Welcome</span></h2>
+    </md-toolbar>
+    <form name="loginForm" ng-submit="loginForm.$valid && vm.login(vm.user)" novalidate layout-margin>
+      <md-content layout="column" class="md-padding">
+        <md-input-container>
+          <label>Email</label>
+          <input type="email" name="email" ng-model="vm.user.email" required maxlength="64">
+        </md-input-container>
+        <md-input-container>
+          <label>Password</label>
+          <input type="password" name="password" ng-model="vm.user.password" required maxlength="32">
+        </md-input-container>
+        <div layout="row" layout-align="center center" style="padding-top: 20px;">
+          <md-button type="submit" class="md-raised md-primary" ng-disabled="loginForm.$invalid">Login</md-button>
+        </div>
+      </md-content>
+    </form>
+    <md-divider>
+      <span class="md-body-1">or</span>
+    </md-divider>
+    <form name="googleLoginForm" novalidate layout-margin>
+      <md-content layout="column" layout-align="center center" class="md-padding">
+        <md-button class="md-raised md-primary" layout="row" layout-align="center center" ng-click="vm.googleLogin()">
+          <img src="assets/images/google.png"></img>
+          <span style="padding-left: 5px;">Sign in with Google</span>
+        </md-button>
+      </md-content>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+<!--<md-grid-list md-cols="2" md-row-height="4:3" md-gutter="8px">
+  <md-grid-tile ng-repeat="c in channels" ng-switch="c.type">
+    <broadcast-owner-screen channel="c" friends="friends" session-id="{{sessionId}}" uid="uid" ng-switch-when="screen"></broadcast-owner-screen>
+    <broadcast-owner-video channel="c" friends="friends" session-id="{{sessionId}}" uid="uid" ng-switch-default></broadcast-owner-video>
+  </md-grid-tile>
+</md-grid-list>-->
+<md-content flex layout-padding>
+  <div ng-repeat="c in channels" ng-switch="c.type">
+    <broadcast-owner-screen channel="c" friends="friends" session-id="{{sessionId}}" uid="uid" ng-switch-when="screen"></broadcast-owner-screen>
+    <broadcast-owner-video channel="c" friends="friends" session-id="{{sessionId}}" uid="uid" ng-switch-default></broadcast-owner-video>
+  </div>
+  <broadcast-pad session-id="{{sessionId}}" broadcast-owner-id="{{uid}}" uid="uid"></broadcast-pad>
+</md-content>
